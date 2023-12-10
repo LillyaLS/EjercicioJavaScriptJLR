@@ -9,8 +9,8 @@ h1{
 
 #luces{
     display: grid;
-    grid-template-columns: 5% 10% 7% 56% 1% auto;
-    grid-template-rows: 5% 10% 5% 20% auto;
+    grid-template-columns: 4% 13% 5% 56% 1% auto;
+    grid-template-rows: 5% 10% 5% 15% 15% auto;
 }
 
 .info{
@@ -106,4 +106,18 @@ h1{
 	grid-column: 6;
 	grid-row: 5;
 	border: none;
+}
+
+input[type="number"] {
+    width: 50px;
+	background-color:gray;
+	margin-left: 10px;
+}
+
+button{
+	grid-column: 6;
+	grid-row: 6;
+	width: 65px;
+	height: 20px;
+	margin-left: 15px;
 }

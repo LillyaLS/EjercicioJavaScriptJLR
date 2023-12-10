@@ -5,25 +5,11 @@
     <title>Juego Luces</title>
     <link rel="stylesheet" href="../EjercicioJavaScriptJLR/css/styles.css">
 </head>
-<body onclick="contarIntentos()">
-    <h1>Juego de Luces - Julio López De Ramón</h1>
-        <div class="difficulty">
-            <label for="level">Selecciona la dificultad:</label>
-            <select id="level">
-                <option value="easy">Fácil</option>
-                <option value="medium">Medio</option>
-                <option value="hard">Difícil</option>
-                <option value="custom">Personalizado</option>
-            </select>
-            <button id="dificul" onclick="startGame()">Comenzar Juego</button>
-        </div>
-        <div id="info">
-            <h3>Intentos Realizados</h3>
-            <p><span id="clickCount">0</span></p>
-            <h3>Tiempo Jugado</h3>
-            <p id="timer">00:00</p>
-        </div>
-        <div class="board" id="board"></div>
+<body>
+    <h1>Juego de Luces</h1>
+    <div id="principal"></div>
+    <div class="board" id="board"></div>
+
 <script src="../EjercicioJavaScriptJLR/js/script.js"></script>
 </body>
 </html>

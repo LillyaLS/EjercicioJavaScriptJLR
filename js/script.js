@@ -1,107 +1,43 @@
-let clickCount = 0;
-let timerStarted = false;
-let timerInterval;
-let seconds = 0;
-let minutes = 0;
-let boardSize = { rows: 5, cols: 6 };
-let lightsCount = 10;
-
-const clickCountElement = document.getElementById('clickCount');
-const timerElement = document.getElementById('timer');
 const board = document.getElementById('board');
+const rows = 5;
+const cols = 6;
+const totalLights = 10;
 
-function startGame() {
-  const level = document.getElementById('level').value;
-  if (level === 'easy') {
-    boardSize = { rows: 5, cols: 6 };
-    lightsCount = 10;
-  } else if (level === 'medium') {
-    boardSize = { rows: 6, cols: 6 };
-    lightsCount = 6;
-  } else if (level === 'hard') {
-    boardSize = { rows: 10, cols: 10 };
-    lightsCount = 20;
-  } else if (level === 'custom') {
-    const customRows = parseInt(prompt('Introduce el número de filas:', '5'), 10);
-    const customCols = parseInt(prompt('Introduce el número de columnas:', '6'), 10);
-    lightsCount = parseInt(prompt('Introduce el número de luces:', '10'), 10);
-
-    if (Number.isInteger(customRows) && Number.isInteger(customCols) && Number.isInteger(lightsCount)
-        && customRows > 0 && customCols > 0 && lightsCount < customRows * customCols) {
-      boardSize = { rows: customRows, cols: customCols };
-    } else {
-      alert('Por favor, introduce valores válidos.');
-      return;
-    }
-  }
-
-  clickCount = 0;
-  clickCountElement.textContent = clickCount;
-  seconds = 0;
-  minutes = 0;
-  timerElement.textContent = '00:00';
-  clearInterval(timerInterval);
-  timerStarted = false;
-
-  generateBoard();
+// Crear el tablero
+for (let i = 0; i < rows * cols; i++) {
+  const button = document.createElement('button');
+  button.classList.add('btn');
+  board.appendChild(button);
 }
 
-function generateBoard() {
-  board.innerHTML = '';
-  const totalButtons = boardSize.rows * boardSize.cols;
+const buttons = document.querySelectorAll('.btn');
 
-  for (let i = 0; i < totalButtons; i++) {
-    const button = document.createElement('button');
-    button.classList.add('btn');
-    if (i < lightsCount) {
-      button.classList.add('active');
-    }
-    button.addEventListener('click', handleButtonClick);
-    board.appendChild(button);
-  }
+// Encender luces aleatorias
+for (let i = 0; i < totalLights; i++) {
+  let randomIndex = Math.floor(Math.random() * (rows * cols));
+  buttons[randomIndex].classList.add('active');
 }
 
+// Manejar el clic en el botón
 function handleButtonClick(event) {
-  if (!timerStarted) {
-    startTimer();
-  }
-
   const button = event.target;
-  const buttons = document.querySelectorAll('.btn');
   const index = Array.from(buttons).indexOf(button);
-
+  
   toggleButton(button);
-  toggleButton(buttons[index - 1]); // Left
-  toggleButton(buttons[index + 1]); // Right
-  toggleButton(buttons[index - boardSize.cols]); // Up
-  toggleButton(buttons[index + boardSize.cols]); // Down
-
-  clickCount++;
-  clickCountElement.textContent = clickCount;
+  toggleButton(buttons[index - 1]); // Izquierda
+  toggleButton(buttons[index + 1]); // Derecha
+  toggleButton(buttons[index - cols]); // Arriba
+  toggleButton(buttons[index + cols]); // Abajo
 }
 
+// Alternar el estado del botón
 function toggleButton(button) {
   if (button) {
     button.classList.toggle('active');
   }
 }
 
-function startTimer() {
-  timerStarted = true;
-  timerInterval = setInterval(updateTimer, 1000);
-}
-
-function updateTimer() {
-  seconds++;
-
-  if (seconds === 60) {
-    seconds = 0;
-    minutes++;
-  }
-
-  timerElement.textContent = `${padTime(minutes)}:${padTime(seconds)}`;
-}
-
-function padTime(time) {
-  return time < 10 ? `0${time}` : time;
-}
+// Agregar evento de clic a cada botón
+buttons.forEach(button => {
+  button.addEventListener('click', handleButtonClick);
+});

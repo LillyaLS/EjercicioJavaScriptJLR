@@ -8,7 +8,33 @@
 <body>
     <h1>Juego de Luces</h1>
     <div id="principal"></div>
-    <div class="board" id="board"></div>
+        <div class="board" id="board"></div>
+        <fieldset class="difficulty">
+            <legend>Selecciona la dificultad:</legend>
+            <label>
+            <input type="radio" name="difficulty" value="easy" checked>
+            Fácil
+            </label>
+            <label>
+            <input type="radio" name="difficulty" value="medium">
+            Medio
+            </label>
+            <input type="radio" name="difficulty" value="hard">
+            <label>Difícil</label>
+            <label>
+            <input type="radio" name="difficulty" value="custom">
+            Personalizado
+            </label>
+            <div id="customOptions" style="display: none;">
+                <label for="customRows">Filas:</label>
+                <input type="number" id="customRows" min="1" value="5">
+                <label for="customCols">Columnas:</label>
+                <input type="number" id="customCols" min="1" value="6">
+                <label for="customLights">Luces:</label>
+                <input type="number" id="customLights" min="1" value="10">
+                <button id="applyCustom">Aplicar</button>
+            </div>
+        </fieldset>
 
 <script src="../EjercicioJavaScriptJLR/js/script.js"></script>
 </body>

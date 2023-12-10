@@ -1,126 +1,107 @@
-const tiempoTranscurrido = document.getElementById("tiempo");
-const numeroIntentos = document.getElementById("numeroIntentos");
+let clickCount = 0;
+let timerStarted = false;
+let timerInterval;
+let seconds = 0;
+let minutes = 0;
+let boardSize = { rows: 5, cols: 6 };
+let lightsCount = 10;
 
-let minutosLabel = document.getElementById("minutos");
-let segundosLabel = document.getElementById("segundos");
-let totalSegundos = 0;
-let miTiempo;
-let intentos = 0
+const clickCountElement = document.getElementById('clickCount');
+const timerElement = document.getElementById('timer');
+const board = document.getElementById('board');
 
-    function setTime() {
-      ++totalSegundos;
-      segundosLabel.innerHTML = pad(totalSegundos % 60);
-      minutosLabel.innerHTML = pad(parseInt(totalSegundos / 60));
+function startGame() {
+  const level = document.getElementById('level').value;
+  if (level === 'easy') {
+    boardSize = { rows: 5, cols: 6 };
+    lightsCount = 10;
+  } else if (level === 'medium') {
+    boardSize = { rows: 6, cols: 6 };
+    lightsCount = 6;
+  } else if (level === 'hard') {
+    boardSize = { rows: 10, cols: 10 };
+    lightsCount = 20;
+  } else if (level === 'custom') {
+    const customRows = parseInt(prompt('Introduce el número de filas:', '5'), 10);
+    const customCols = parseInt(prompt('Introduce el número de columnas:', '6'), 10);
+    lightsCount = parseInt(prompt('Introduce el número de luces:', '10'), 10);
+
+    if (Number.isInteger(customRows) && Number.isInteger(customCols) && Number.isInteger(lightsCount)
+        && customRows > 0 && customCols > 0 && lightsCount < customRows * customCols) {
+      boardSize = { rows: customRows, cols: customCols };
+    } else {
+      alert('Por favor, introduce valores válidos.');
+      return;
+    }
   }
 
+  clickCount = 0;
+  clickCountElement.textContent = clickCount;
+  seconds = 0;
+  minutes = 0;
+  timerElement.textContent = '00:00';
+  clearInterval(timerInterval);
+  timerStarted = false;
 
+  generateBoard();
+}
 
+function generateBoard() {
+  board.innerHTML = '';
+  const totalButtons = boardSize.rows * boardSize.cols;
 
+  for (let i = 0; i < totalButtons; i++) {
+    const button = document.createElement('button');
+    button.classList.add('btn');
+    if (i < lightsCount) {
+      button.classList.add('active');
+    }
+    button.addEventListener('click', handleButtonClick);
+    board.appendChild(button);
+  }
+}
 
+function handleButtonClick(event) {
+  if (!timerStarted) {
+    startTimer();
+  }
 
+  const button = event.target;
+  const buttons = document.querySelectorAll('.btn');
+  const index = Array.from(buttons).indexOf(button);
 
+  toggleButton(button);
+  toggleButton(buttons[index - 1]); // Left
+  toggleButton(buttons[index + 1]); // Right
+  toggleButton(buttons[index - boardSize.cols]); // Up
+  toggleButton(buttons[index + boardSize.cols]); // Down
 
+  clickCount++;
+  clickCountElement.textContent = clickCount;
+}
 
+function toggleButton(button) {
+  if (button) {
+    button.classList.toggle('active');
+  }
+}
 
+function startTimer() {
+  timerStarted = true;
+  timerInterval = setInterval(updateTimer, 1000);
+}
 
+function updateTimer() {
+  seconds++;
 
+  if (seconds === 60) {
+    seconds = 0;
+    minutes++;
+  }
 
+  timerElement.textContent = `${padTime(minutes)}:${padTime(seconds)}`;
+}
 
-
-
-
-
-(function() {
-	// set probability of being on for initial state of cells
-	var probabilityOfOn = 30, cellState;
-	// set grid size
-	var gameSize = 5;
-
-	// gather necessary DOM elements
-	var cellArray = [];
-	cellArray = document.getElementsByClassName("lightit");
-	winCont = document.getElementsByClassName("winner-cont")[0];
-
-	// initialize array for neighbors and fill it
-	var cellNeighborArray = [];
-	for(var i = 0, j = cellArray.length; i < j; i++) {
-		// check for topleft corner
-		if(i === 0) {
-			cellNeighborArray[i] = [cellArray[i], cellArray[i + 1], cellArray[i + gameSize]];
-		// check for bottomright corner
-		} else if(i === gameSize * gameSize - 1) {
-			cellNeighborArray[i] = [cellArray[i], cellArray[i - 1], cellArray[i - gameSize]];
-		// check for bottomleft corner
-		} else if(i === gameSize * gameSize - gameSize) {
-			cellNeighborArray[i] = [cellArray[i], cellArray[i + 1], cellArray[i - gameSize]];
-		// check for topright corner
-		} else if(i === gameSize - 1) {
-			cellNeighborArray[i] = [cellArray[i], cellArray[i - 1], cellArray[i + gameSize]];
-		// check for left side border
-		} else if(i % gameSize === 0) {
-			cellNeighborArray[i] = [cellArray[i], cellArray[i + 1], cellArray[i - gameSize], cellArray[i + gameSize]];
-		// check for right side border
-		} else if(i % gameSize === gameSize - 1) {
-			cellNeighborArray[i] = [cellArray[i], cellArray[i - 1], cellArray[i - gameSize], cellArray[i + gameSize]];
-		// check for top border
-		} else if(i < gameSize) {
-			cellNeighborArray[i] = [cellArray[i], cellArray[i - 1], cellArray[i + 1], cellArray[i + gameSize]];
-		// check for bottom border
-		} else if(i >= gameSize * gameSize - gameSize) {
-			cellNeighborArray[i] = [cellArray[i], cellArray[i - 1], cellArray[i + 1], cellArray[i - gameSize]];
-		// rest of cells
-		} else {
-			cellNeighborArray[i] = [cellArray[i], cellArray[i - 1], cellArray[i + 1], cellArray[i - gameSize], cellArray[i + gameSize]];
-		};
-	}
-
-	// start the game
-	start();
-
-	// randomize cells and add on click events
-	function start() {
-		for(var ii = 0, jj = cellArray.length; ii < jj; ii++) {
-			cellState = Math.floor(Math.random() * 100);
-			if(cellState < probabilityOfOn) {
-				cellArray[ii].classList.toggle("light-on");
-			}
-      if (numeroIntentos.innerText < 1) {
-        miTiempo = setInterval(setTime, 1000);
-      }
-      intentos++;
-      numeroIntentos.innerHTML = intentos;
-			// remove previous event listener if it exists (for game reset)
-			cellArray[ii].removeEventListener("click", lightClick);
-			cellArray[ii].addEventListener("click", lightClick);
-		}
-	}	
-
-	// toggle lights and neighbors when clicked
-	function lightClick() {
-		this.classList.toggle("light-on");
-		for(var iii = 0, jjj = cellNeighborArray.length; iii < jjj; iii++) {
-			if(this === cellNeighborArray[iii][0]) {
-				for(var iiii = 1; iiii < cellNeighborArray[iii].length; iiii++) {
-					cellNeighborArray[iii][iiii].classList.toggle("light-on");
-				}
-			}
-		}
-		// test if winner on every click and display the winner dialog
-		if(testWinner()) {
-			winCont.style.display = "block";
-      clearInterval(miTiempo);
-			document.getElementsByClassName('reset-btn')[0].addEventListener("click", function() {
-				start();
-				winCont.style.display = "none";
-			});
-		};
-	}
-
-	// winner if no elements with .light-on
-	function testWinner() {
-		if(document.getElementsByClassName("light-on")[0]) {
-			return false;
-		};
-		return true;
-	}
-})();
+function padTime(time) {
+  return time < 10 ? `0${time}` : time;
+}

@@ -6,97 +6,22 @@
     <link rel="stylesheet" href="../EjercicioJavaScriptJLR/css/styles.css">
 </head>
 <body onclick="contarIntentos()">
-    <h1>Juego de luces - Julio López de Ramón</h1>   
-    <div id="luces">
-        <div class="info">
-            <h3>Número de intentos</h3>
-            <p id="numeroIntentos">0</p>
-            <h3>Tiempo transcurrido</h3>
-            <p><label id="minutos">00</label>:<label id="segundos">00</label></p>
+    <h1>Juego de Luces - Julio López De Ramón</h1>
+        <div class="difficulty">
+            <label for="level">Selecciona la dificultad:</label>
+            <select id="level">
+                <option value="easy">Fácil</option>
+                <option value="medium">Medio</option>
+                <option value="hard">Difícil</option>
+                <option value="custom">Personalizado</option>
+            </select>
+            <button id="dificul" onclick="startGame()">Comenzar Juego</button>
         </div>
-        <div class="container">
-            <div class="row">
-                <div class="row text-center">
-                    <div class="lightit"></div>
-                    <div class="lightit"></div>
-                    <div class="lightit"></div>
-                    <div class="lightit"></div>
-                    <div class="lightit"></div>
-                    <div class="lightit"></div>
-                </div>
-                <div class="row text-center">
-                    <div class="lightit"></div>
-                    <div class="lightit"></div>
-                    <div class="lightit"></div>
-                    <div class="lightit"></div>
-                    <div class="lightit"></div>
-                    <div class="lightit"></div>
-                </div>
-                <div class="row text-center">
-                    <div class="lightit"></div>
-                    <div class="lightit"></div>
-                    <div class="lightit"></div>
-                    <div class="lightit"></div>
-                    <div class="lightit"></div>
-                    <div class="lightit"></div>
-                </div>
-                <div class="row text-center">
-                    <div class="lightit"></div>
-                    <div class="lightit"></div>
-                    <div class="lightit"></div>
-                    <div class="lightit"></div>
-                    <div class="lightit"></div>
-                    <div class="lightit"></div>
-                </div>
-                <div class="row text-center">
-                    <div class="lightit"></div>
-                    <div class="lightit"></div>
-                    <div class="lightit"></div>
-                    <div class="lightit"></div>
-                    <div class="lightit"></div>
-                    <div class="lightit"></div>
-                </div>
-                <div class="winner-cont">
-                    <div class="winner-msg">
-                        <h3>You won!</h3>
-                        <button class="btn btn-default reset-btn">Reset</button>
-                    </div>
-                </div>
-            </div>
+        <div id="info">
+            <p>Clicks en luces: <span id="clickCount">0</span></p>
+            <p id="timer">00:00</p>
         </div>
-        <div id="dificultad">
-            <h3>Selector de Dificultad</h3>
-            <div>
-                <input type="radio" id="facildif" name="dificultad">
-                <label for="facil">Fácil</label>
-            </div>
-            <div>
-                <input type="radio" id="mediodif" name="difficulty">
-                <label for="medio">Medio</label>
-            </div>
-            <div>
-                <input type="radio" id="dificildif" name="difficulty">
-                <label for="dificil">Difícil</label>
-            </div>
-            <div>
-                <input type="radio" id="personalizadodif" name="difficulty">
-                <label for="personalizado">Personalizado</label>
-            </div>
-        </div>
-        <fieldset id="personalizado">
-            <h3>Numero de luces</h3>
-                <label for="filas">Nº Filas</label>
-                <input type="number" name="filas" id="filasinput" value="0">
-                <br>
-                <label for="columnas">Nº Columnas</label>
-                <input type="number" name="columnas" id="columnasinput" value="0">
-                <br>
-                <label for="columnas">Nº Luces encendias</label>
-                <input type="number" name="luces" id="lucesinput" value="0">
-                <br>
-        </fieldset>
-        <button type="submit">Aceptar</button>
-    </div>
+        <div class="board" id="board"></div>
 <script src="../EjercicioJavaScriptJLR/js/script.js"></script>
 </body>
 </html>

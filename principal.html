@@ -7,7 +7,11 @@
 </head>
 <body>
     <h1>Juego de Luces</h1>
-    <div id="principal"></div>
+    <div id="principal">
+        <div class="stats">
+            <p>Contador de clics: <span id="clickCounter">0</span></p>
+            <p>Temporizador: <span id="timer">0:00</span></p>
+        </div>
         <div class="board" id="board"></div>
         <fieldset class="difficulty">
             <legend>Selecciona la dificultad:</legend>
@@ -35,6 +39,7 @@
                 <button id="applyCustom">Aplicar</button>
             </div>
         </fieldset>
+    </div>
 
 <script src="../EjercicioJavaScriptJLR/js/script.js"></script>
 </body>

@@ -15,21 +15,21 @@ let timerRunning = false;
 let seconds = 0;
 
 function startTimer() {
-	timerRunning = true;
-	timerInterval = setInterval(updateTimer, 1000);
+    timerRunning = true;
+    timerInterval = setInterval(updateTimer, 1000);
 }
 
 function updateTimer() {
-	seconds++;
-	const minutes = Math.floor(seconds / 60);
-	const remainingSeconds = seconds % 60;
-	timerDisplay.textContent = `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+    seconds++;
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    document.getElementById('timer').textContent = `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
 }
 
 function handleButtonClick(event) {
-	if (!timerRunning) {
-		startTimer();
-	}
+    if (!timerRunning) {
+        startTimer();
+    }
 	const button = event.target;
 	const index = Array.from(buttons).indexOf(button);
 	
